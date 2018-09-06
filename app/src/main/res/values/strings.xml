@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MailChimpExercise</string>
+    <string name="search">Search</string>
 </resources>
