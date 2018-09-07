@@ -6,33 +6,28 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.c4q.mailchimpexercise.R;
 import com.example.c4q.mailchimpexercise.model.Photo;
 
 public class PhotoViewHolder extends RecyclerView.ViewHolder {
     private ImageView image;
     private Context context;
-    private StringBuilder sb;
+    private String  url;
 
     public PhotoViewHolder(View itemView) {
         super(itemView);
-
         image = itemView.findViewById(R.id.display_image);
         context = itemView.getContext();
     }
 
     public void bind(Photo photo) {
-        sb = new StringBuilder();
-        sb.append("https://farm")
-                .append(photo.getFarm())
-                .append(".staticflickr.com/")
-                .append(photo.getServer())
-                .append("/")
-                .append(photo.getId()).append("_").append(photo.getSecret()).append(".jpg");
-        //sb.append("https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg");
+        url = "https://farm" + photo.getFarm() + ".staticflickr.com/"
+                + photo.getServer() + "/" + photo.getId() + "_" + photo.getSecret() + ".jpg";
 
         Glide.with(context)
-                .load(sb.toString())
+                .load(url)
+                .apply(new RequestOptions().override(600,600).centerCrop())
                 .into(image);
 
     }
