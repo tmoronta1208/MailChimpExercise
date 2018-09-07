@@ -10,9 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class SearchActivity extends AppCompatActivity {
-    EditText editText;
-    Button submitButton;
-    String text;
+    private EditText editText;
+    private Button submitButton;
+    private String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

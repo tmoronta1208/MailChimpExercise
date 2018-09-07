@@ -31,7 +31,7 @@ import retrofit2.Response;
  */
 public class DisplayPhotosListFragment extends Fragment {
 
-    FlickrService flickrService = new FlickrService();
+    FlickrService flickrService;
 
     private View rootView;
     private RecyclerView recyclerView;
@@ -47,6 +47,7 @@ public class DisplayPhotosListFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_display_photos_list, container, false);
         context = rootView.getContext();
+        flickrService = new FlickrService();
 
         if (getArguments() != null) {
             text = getArguments().getString("search");
@@ -67,13 +68,13 @@ public class DisplayPhotosListFragment extends Fragment {
             public void onResponse(Call<FlickrModel> call, Response<FlickrModel> response) {
 
                 if(response != null){
+
                     List<Photo> responsePhotoList = response.body().getPhotos().getPhoto();
-                    PhotoAdapter photoAdapter = new PhotoAdapter(responsePhotoList);
-                    recyclerView = rootView.findViewById(R.id.recycler_view);
-                    recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
-                    recyclerView.setAdapter(photoAdapter);
+                    setUpRecyclerView(responsePhotoList);
+
                 } else {
-                    Snackbar snackbar = Snackbar.make(getView(), R.string.error_message, Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(
+                            getView(), R.string.error_message, Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
 
@@ -81,11 +82,19 @@ public class DisplayPhotosListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<FlickrModel> call, Throwable t) {
-                Snackbar snackbar = Snackbar.make(getView(), R.string.error_message, Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(
+                        getView(), R.string.error_message, Snackbar.LENGTH_SHORT);
                 snackbar.show();
                 t.printStackTrace();
             }
         });
+    }
+
+    private void setUpRecyclerView(List<Photo> responseList) {
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+        PhotoAdapter photoAdapter = new PhotoAdapter(responseList);
+        recyclerView.setAdapter(photoAdapter);
     }
 
 }
