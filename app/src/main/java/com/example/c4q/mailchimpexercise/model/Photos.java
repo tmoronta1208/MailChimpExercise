@@ -1,17 +1,20 @@
 package com.example.c4q.mailchimpexercise.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Photos {
+    @SerializedName("photo")
+    private List<Photo> photo;
 
-    private List<Photo> photoList;
-
-    public List<Photo> getPhotoList() {
-        return photoList;
+    //getters
+    public List<Photo> getPhoto() {
+        return photo;
     }
 
-    public void setPhotoList(List<Photo> photoList) {
-        this.photoList = photoList;
+    //setters
+    public void setPhoto(List<Photo> photo) {
+        this.photo = photo;
     }
 }
-
